@@ -1,3 +1,4 @@
+from pickle import TRUE
 import pygame
 
 #screen 
@@ -17,11 +18,11 @@ y_player = 430
 vel = 2
 
 #loop
-finish = False
-while not finish:
+RUN =   True
+while RUN:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            finish = True
+            RUN = False
 
 #Fill Screen
     #background
