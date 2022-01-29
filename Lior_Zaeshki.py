@@ -31,8 +31,8 @@ pizza_list = []
 def print_pizza():
     for i in range (len(pizza_list)):
         p = pizza_list[i]
-    screen.blit(pizza_img, (p[0],p[1]))
-    pizza_list[i] = [p[0],p[1] - 60]
+        screen.blit(pizza_img, (p[0],p[1]))
+        pizza_list[i] = [p[0],p[1] - 60]
 
     if len(pizza_list) > 0 and pizza_list[0][1] < 0:
         pizza_list.remove(pizza_list[0])
@@ -55,7 +55,7 @@ while play:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             play = False
-        elif event.type == pygame.KYDOWN:
+        elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 nekoarc_img_x -= neko_x_step
             if event.key == pygame.K_RIGHT:
@@ -63,7 +63,7 @@ while play:
             if event.key == pygame.K_SPACE:
                 pizza_list.append([nekoarc_img_x, 115/2 , nekoarc_img_y])
     
-    screen.blit(nekoarc_img, nekoarc_img_x,nekoarc_img_y)
+    screen.blit(nekoarc_img, (nekoarc_img_x,nekoarc_img_y))
     print_pizza()
 
 
