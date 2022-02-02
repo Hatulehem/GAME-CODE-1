@@ -24,11 +24,17 @@ toy_chika = pygame.transform.scale(toy_chika, (80,80))
 green = (7,248,19)
 toy_chika.set_colorkey(green)
 
-neko_music = "neko music.08"
-pygame.mixer.init()
-pygame.mixer.music.load(neko_music)
-pygame.mixer.music.play()
+neko_sound = pygame.mixer.Sound("neko music.08")
+pygame.mixer.find_channel().play(neko_sound)
+neko_sound.set_volume(4.0)
 
+def dog_hit(l):
+  return abs(l[0] - toy_x) < 60  and abs(l[1]-toy_y) < 10
+
+
+
+
+font = pygame.font.SysFont('Comic Sans MS', 30)
 
 clock = pygame.time.Clock()
 
@@ -42,13 +48,27 @@ toy_x = 450
 toy_y = 100
 toy_x_step = 20
 
+score = 0
+
 
 #function
 def print_dog():
   for i in range(len(dog_list)):
+    global score
+    global toy_x
+
     l = dog_list[i]
     screen.blit(dog_img,(l[0],l[1]))
     dog_list[i] = [l[0],l[1]-27]
+
+    
+    if dog_hit(l):
+        score += 1
+        toy_x = 0
+
+        hit_sound = pygame.mixer.Sound("meow.mp3")
+        pygame.mixer.find_channel().play(hit_sound)
+
 
   if len(dog_list) > 0 and dog_list[0][1] < 0:
     dog_list.remove(dog_list[0])
@@ -72,10 +92,9 @@ while play:
             if event.key == pygame.K_SPACE:
                 dog_list.append([neko_x,neko_y])
 
-                gurnya = "gurnya.mp3"
-                pygame.mixer.init()
-                pygame.mixer.music.load(gurnya)
-                pygame.mixer.music.play()
+                gurnya = pygame.mixer.Sound("gurnya.mp3")
+                pygame.mixer.find_channel().play(gurnya)
+                gurnya.set_volume(0.4)  
 
     #keys
     keys = pygame.key.get_pressed()
@@ -95,9 +114,16 @@ while play:
         toy_x_step = -10
     if toy_x <0 :
         toy_x_step = 10
+
+
+
+    #text
+    text_surface = font.render("Meowww : " + str(score), False ,  (255,255,255))
+    screen.blit(text_surface, (20,20))
+
     #others
     pygame.display.update()
-
+  
     print_dog()
 
     pygame.display.flip()
